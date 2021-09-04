@@ -58,12 +58,11 @@ class Solution{
 }
 public class MainWithTable {
  
-    private static final long serialVersionUID = 1L;
- 
+    
     private static void createAndShowGUI() {
  
   JFrame frame=new JFrame("Sudoku Solver");
-    //frame.setVisible(true);
+
     frame.setSize(400,300);
     JPanel panel=new JPanel();
     JPanel panel2=new JPanel();
@@ -83,6 +82,7 @@ public class MainWithTable {
     
     JButton Solve=new JButton("Solve");
     Solve.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent event) {
                 //Code for sudoku solving here
                 int A[][]=new int[9][9];
@@ -93,16 +93,24 @@ public class MainWithTable {
                     }
                 }
                 Solution s=new Solution();
-                s.rSolve(A, 0, 0);
+               boolean x= s.rSolve(A, 0, 0);
+              if(x==true)
                 for(int i=0;i<9;i++){
                     for(int j=0;j<9;j++)
                         tbox[i][j].setText(String.valueOf(A[i][j]));
                 }
+              else{
+                  JOptionPane.showMessageDialog(null,"Not Possible");
+              }
+               }
+               
+               
                 
-            }
+            
     });
     JButton Clear=new JButton("Clear");
     Clear.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent event) {
                 for(int i=0;i<9;i++){
                     for(int j=0;j<9;j++)
@@ -113,6 +121,7 @@ public class MainWithTable {
     });
     JButton Exit=new JButton("Exit");
     Exit.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent event) {
                 System.exit(0);
                 
