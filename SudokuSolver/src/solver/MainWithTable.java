@@ -14,52 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-class Solution{
-     public boolean check(int row,int col, int n,int grid[][]){
-        for(int i=0;i<9;i++){
-            if(grid[i][col]==n)
-                return false;
-            if(grid[row][i]==n)
-                return false;
-        }
-        int x=(row)/3;
-        int y=(col)/3;
-
-        for(int i=3*x;i<3*x+3;i++){
-            for(int j=y*3;j<y*3+3;j++)
-                if(grid[i][j]==n)
-                    return false;
-        }
-        return true;
-
-    }
-    boolean rSolve(int grid[][],int r,int c){
-        if(r==8&&c==9)
-            return true;
-        if(c==9)
-        {
-            r++;
-            c=0;
-        }
-        if(grid[r][c]!=0)
-            return rSolve(grid,r,c+1);
-        for(int i=1;i<10;i++){
-            if(check(r,c,i,grid)){
-                grid[r][c]=i;
-                if(rSolve(grid,r,c+1))
-                    return true;
-                grid[r][c]=0;
-            }
-        }
-        return false;
-        
-        
-    }
-}
 public class MainWithTable {
  
     
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
  
   JFrame frame=new JFrame("Sudoku Solver");
 
@@ -85,6 +43,7 @@ public class MainWithTable {
             @Override
             public void actionPerformed(ActionEvent event) {
                 //Code for sudoku solving here
+                try{
                 int A[][]=new int[9][9];
                 for(int i=0;i<9;i++){
                     for(int j=0;j<9;j++)
@@ -93,16 +52,21 @@ public class MainWithTable {
                     }
                 }
                 Solution s=new Solution();
-               boolean x= s.rSolve(A, 0, 0);
-              if(x==true)
+                 boolean x=s.rSolve(A, 0, 0);
+                 if(x==false)
+                        System.out.println("yoyo");
                 for(int i=0;i<9;i++){
                     for(int j=0;j<9;j++)
                         tbox[i][j].setText(String.valueOf(A[i][j]));
                 }
-              else{
-                  JOptionPane.showMessageDialog(null,"Not Possible");
-              }
+             
                }
+            catch(Exception e){
+                System.out.println("Sth wtn wrong in button solve action");
+                
+        }
+        
+          }
                
                
                 
@@ -155,4 +119,64 @@ public class MainWithTable {
 
     }
  
+}
+class Solution extends Throwable{
+     public boolean check(int row,int col, int n,int grid[][]){
+         
+        for(int i=0;i<9;i++){
+            
+            if(grid[i][col]==n&&i!=row)
+                return false;
+            if(grid[row][i]==n&&i!=col)
+                return false;
+        }
+        int x=(row)/3;
+        int y=(col)/3;
+
+        for(int i=3*x;i<3*x+3;i++){
+            for(int j=y*3;j<y*3+3;j++)
+                if(grid[i][j]==n&&!(i==row&&j==col)){
+                    return false;
+                }
+                   
+        }
+        return true;
+         
+         
+
+    }
+  public boolean rSolve(int grid[][],int r,int c){
+       
+        if(r==8&&c==9)
+            return true;
+        if(c==9)
+        {
+            r++;
+            c=0;
+        }
+        if(grid[r][c]==0){
+                
+        for(int i=1;i<10;i++){
+            if(check(r,c,i,grid)){
+                grid[r][c]=i;
+                if(rSolve(grid,r,c+1)){
+                    
+                    return true;
+                }
+                grid[r][c]=0;
+                tbox[i][j].setText(String.valueOf(grid[i][j]));
+            }
+        }
+        }
+        if(grid[r][c]!=0){
+            if(check(r,c,grid[r][c],grid))
+                return rSolve(grid,r,c+1);
+            else
+                return false;
+        }
+        
+        return false;
+        
+        
+    }
 }
