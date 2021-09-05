@@ -164,7 +164,7 @@ class Solution extends Throwable{
                     return true;
                 }
                 grid[r][c]=0;
-                tbox[i][j].setText(String.valueOf(grid[i][j]));
+               // tbox[i][j].setText(String.valueOf(grid[i][j]));
             }
         }
         }
